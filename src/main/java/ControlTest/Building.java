@@ -13,7 +13,7 @@ public class Building implements Buildable, Changeable{
     public void process(){
         //Сам процесс стройки, при котором с шансом около 5% может появиться брак на одном из этапов
         //Если забраковали проект, то сразу завершаем стройку.
-        while (current.getClass() != Finishing.class || current.status != Status.COMPLETED){
+        while (current.next != null || current.status != Status.COMPLETED){
             if (Math.random() < 0.05f) {
                 current.status = Status.REJECTED;
                 if (current.getClass() == Project.class) {
@@ -71,7 +71,6 @@ public class Building implements Buildable, Changeable{
             current.prev = current;
         } else {
             current.prev.next = stage;
-            stage.next = current;
             stage.prev = current.prev;
             current.prev = stage;
         }
